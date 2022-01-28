@@ -5,4 +5,8 @@ public class Apple extends Fruit {
     public Apple(Float weight) {
         super("Яблоко", weight);
     }
+
+    public Apple() {
+        this(1f);
+    }
 }

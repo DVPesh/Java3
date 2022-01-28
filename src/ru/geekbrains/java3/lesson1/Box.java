@@ -1,6 +1,7 @@
 package ru.geekbrains.java3.lesson1;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Box<T extends Fruit> {
@@ -17,6 +18,10 @@ public class Box<T extends Fruit> {
 
     public void put(T fruit) {
         fruits.add(fruit);
+    }
+
+    public void put(T... fruits) {
+        this.fruits.addAll(Arrays.asList(fruits));
     }
 
     public boolean compare(Box<?> box) {
