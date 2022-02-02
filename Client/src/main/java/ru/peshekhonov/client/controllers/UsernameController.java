@@ -50,6 +50,9 @@ public class UsernameController {
                 return;
             }
             if (username.equals(clientController.getUsername())) {
+                usernameField.clear();
+                loginField.clear();
+                passwordField.clear();
                 usernameStage.close();
                 return;
             }
