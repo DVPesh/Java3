@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="202.0" prefWidth="381.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="ru.peshekhonov.client.controllers.UsernameController">
+    <children>
+        <Label layoutX="23.0" layoutY="33.0" prefHeight="17.0" prefWidth="109.0" text="Новое имя пользователя:"
+               AnchorPane.bottomAnchor="152.0" AnchorPane.leftAnchor="23.0" AnchorPane.rightAnchor="185.0"
+               AnchorPane.topAnchor="33.0"/>
+        <Label layoutX="23.0" layoutY="77.0" prefHeight="17.0" prefWidth="55.0" text="Логин:"/>
+        <Label layoutX="24.0" layoutY="118.0" text="Пароль:"/>
+        <TextField fx:id="usernameField" layoutX="193.0" layoutY="29.0"/>
+        <TextField fx:id="loginField" layoutX="97.0" layoutY="73.0"/>
+        <PasswordField fx:id="passwordField" layoutX="97.0" layoutY="114.0"/>
+        <Button fx:id="changeUsernameButton" layoutX="120.0" layoutY="160.0" mnemonicParsing="false"
+                onAction="#executeUsernameChange" prefHeight="25.0" prefWidth="149.0" text="Изменить"/>
+    </children>
+</AnchorPane>

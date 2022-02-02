@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0"
+            prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="ru.peshekhonov.client.controllers.ClientController">
+    <center>
+        <TextArea fx:id="textArea" editable="false" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER"/>
+    </center>
+    <bottom>
+        <HBox prefHeight="25.0" BorderPane.alignment="CENTER">
+            <children>
+                <TextField fx:id="textField" maxHeight="1.7976931348623157E308" onAction="#sendMessage"
+                           HBox.hgrow="ALWAYS"/>
+                <Button fx:id="sendButton" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false"
+                        onAction="#sendMessage" text="Отправить"/>
+            </children>
+        </HBox>
+    </bottom>
+    <left>
+        <ListView fx:id="userList" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER"/>
+    </left>
+    <top>
+        <HBox prefHeight="17.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+            <children>
+                <AnchorPane prefHeight="200.0">
+                    <children>
+                        <Label text="                 соединение с сервером "/>
+                    </children>
+                </AnchorPane>
+                <AnchorPane prefHeight="17.0" prefWidth="113.0">
+                    <children>
+                        <Label fx:id="label" alignment="CENTER" maxWidth="1.7976931348623157E308"
+                               text="не установлено"/>
+                    </children>
+                </AnchorPane>
+                <AnchorPane onMousePressed="#nickOnMousePressed" prefHeight="17.0" prefWidth="31.0">
+                    <HBox.margin>
+                        <Insets left="40.0"/>
+                    </HBox.margin>
+                    <children>
+                        <Label text="ник:"/>
+                    </children>
+                </AnchorPane>
+                <AnchorPane prefHeight="17.0">
+                    <children>
+                        <Label fx:id="usernameLabel" onMousePressed="#usernameOnMousePressed"/>
+                    </children>
+                </AnchorPane>
+            </children>
+        </HBox>
+    </top>
+</BorderPane>
