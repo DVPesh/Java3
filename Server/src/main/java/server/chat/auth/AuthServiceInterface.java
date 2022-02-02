@@ -14,4 +14,6 @@ public interface AuthServiceInterface {
 
     void changeUsername(String login, String username) throws SQLException;
 
+    boolean doesUsernameExist(String username) throws SQLException;
+
 }

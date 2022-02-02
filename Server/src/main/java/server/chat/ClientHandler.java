@@ -150,7 +150,12 @@ public class ClientHandler {
                     String username = data.getUsername();
                     if (user.getLogin().equals(login) && user.getPassword().equals(password)) {
                         try {
-                            server.getAuthService().changeUsername(login, username);
+                            if (!server.getAuthService().doesUsernameExist(username)) {
+                                server.getAuthService().changeUsername(login, username);
+                            } else {
+                                sendCommand(Command.errorCommand("Пользователь с таким именем уже существует"));
+                                break;
+                            }
                         } catch (SQLException e) {
                             System.err.println("Database access error occurs");
                             e.printStackTrace();
