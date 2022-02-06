@@ -125,15 +125,11 @@ public class ClientChat extends Application {
         usernameStage.setResizable(false);
     }
 
-    public void switchToMainChatWindowAfterAuthOk(String username, String login) {
-        getAuthStage().close();
-        getChatController().setUsername(username);
-        if (ChatLogging.instance != null) ChatLogging.instance.close();
-        ChatLogging.instance = new ChatLogging();
-        ChatLogging.instance.start(login);
-        getChatController().loadLastChatLoggingRows();
+    public void switchToMainChatWindowAfterAuthOk(String username) {
         getChatController().initializeMessageHandler();
         getAuthController().close();
+        getChatController().setUsername(username);
+        getAuthStage().close();
     }
 
     public void switchToMainChatWindowAfterChangeUsernameOk(String username) {

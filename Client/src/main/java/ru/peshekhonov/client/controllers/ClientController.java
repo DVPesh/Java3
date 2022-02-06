@@ -39,6 +39,7 @@ public class ClientController {
     private ListView<String> userList;
 
     private ReadCommandListener readMessageListener;
+    public String login;
 
     public void sendMessage() {
         Network network = Network.getInstance();
@@ -126,6 +127,15 @@ public class ClientController {
         readMessageListener = Network.getInstance().addReadMessageListener(new ReadCommandListener() {
             @Override
             public void processReceivedCommand(Command command) {
+                if (ChatLogging.instance == null) {
+                    ChatLogging.instance = new ChatLogging(login);
+                    loadLastChatLoggingRows();
+                } else if (!login.equals(ChatLogging.instance.getLogin())) {
+                    ChatLogging.instance.close();
+                    ChatLogging.instance = new ChatLogging(login);
+                    loadLastChatLoggingRows();
+                }
+
                 if (command.getType() == CommandType.CLIENT_MESSAGE) {
                     ClientMessageCommandData data = (ClientMessageCommandData) command.getData();
                     appendMessageToChat(data.getSender(), data.getMessage());

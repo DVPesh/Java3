@@ -13,9 +13,12 @@ public class ChatLogging {
     public static ChatLogging instance;
 
     private PrintWriter printWriter;
-    private File chatLoggingFile;
+    private final File chatLoggingFile;
 
-    public void start(String login) {
+    private final String login;
+
+    public ChatLogging(String login) {
+        this.login = login;
         String pathname = String.format("logging/history_%s.txt", login);
         chatLoggingFile = new File(pathname);
         try {
@@ -59,7 +62,11 @@ public class ChatLogging {
 
         Collections.reverse(lastChatLoggingRows);
 
-        return String.join(System.lineSeparator(), lastChatLoggingRows);
+        return String.join(System.lineSeparator(), lastChatLoggingRows) + System.lineSeparator();
+    }
+
+    public String getLogin() {
+        return this.login;
     }
 
 }

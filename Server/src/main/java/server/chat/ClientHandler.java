@@ -97,7 +97,7 @@ public class ClientHandler {
                     this.user = new User(login, password, userName);
                     sendCommand(Command.authOkCommand(userName));
                     try {
-                        Thread.sleep(1000);
+                        Thread.sleep(100);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
