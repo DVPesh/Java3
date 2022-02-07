@@ -26,11 +26,12 @@ public class AuthController {
     @FXML
     private Button authButton;
 
+    private String login;
     private ReadCommandListener readMessageListener;
 
     @FXML
     public void executeAuth(ActionEvent actionEvent) {
-        String login = loginField.getText();
+        login = loginField.getText();
         String password = passwordField.getText();
         if (login == null || login.isBlank() || password == null || password.isBlank()) {
             Dialogs.AuthError.EMPTY_CREDENTIALS.show();
@@ -63,6 +64,7 @@ public class AuthController {
                 if (command.getType() == CommandType.AUTH_OK) {
                     AuthOkCommandData data = (AuthOkCommandData) command.getData();
                     String username = data.getUsername();
+                    ClientChat.INSTANCE.getChatController().login = login;
                     Platform.runLater(() -> ClientChat.INSTANCE.switchToMainChatWindowAfterAuthOk(username));
                 } else if (command.getType() == CommandType.ERROR) {
                     ErrorCommandData data = (ErrorCommandData) command.getData();

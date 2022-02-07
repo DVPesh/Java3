@@ -15,6 +15,7 @@ import ru.peshekhonov.client.controllers.AuthController;
 import ru.peshekhonov.client.controllers.ClientController;
 import ru.peshekhonov.client.controllers.UsernameController;
 import ru.peshekhonov.client.model.Network;
+import ru.peshekhonov.client.service.ChatLogging;
 
 import java.io.IOException;
 import java.util.Timer;
@@ -50,6 +51,7 @@ public class ClientChat extends Application {
             @Override
             public void handle(WindowEvent windowEvent) {
                 Network.getInstance().close();
+                if (ChatLogging.instance != null) ChatLogging.instance.close();
             }
         });
 
@@ -124,9 +126,9 @@ public class ClientChat extends Application {
     }
 
     public void switchToMainChatWindowAfterAuthOk(String username) {
-        getChatController().setUsername(username);
         getChatController().initializeMessageHandler();
         getAuthController().close();
+        getChatController().setUsername(username);
         getAuthStage().close();
     }
 

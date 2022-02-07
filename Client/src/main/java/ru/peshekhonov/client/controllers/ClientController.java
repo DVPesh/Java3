@@ -10,6 +10,7 @@ import ru.peshekhonov.client.ClientChat;
 import ru.peshekhonov.client.dialogs.Dialogs;
 import ru.peshekhonov.client.model.Network;
 import ru.peshekhonov.client.model.ReadCommandListener;
+import ru.peshekhonov.client.service.ChatLogging;
 import ru.peshekhonov.clientserver.Command;
 import ru.peshekhonov.clientserver.CommandType;
 import ru.peshekhonov.clientserver.commands.ClientMessageCommandData;
@@ -22,6 +23,8 @@ import java.util.Date;
 public class ClientController {
 
     private final static String TO_ALL_USERS_ITEM = "всем";
+    private final static int LAST_CHAT_LOGGING_ROWS_LOADED_QUANTITY = 100;
+
     @FXML
     public Label label;
     @FXML
@@ -36,6 +39,7 @@ public class ClientController {
     private ListView<String> userList;
 
     private ReadCommandListener readMessageListener;
+    public String login;
 
     public void sendMessage() {
         Network network = Network.getInstance();
@@ -100,6 +104,8 @@ public class ClientController {
     }
 
     private void appendMessageToChat(String sender, String message) {
+        String oldChatWindowContent = textArea.getText();
+
         textArea.appendText(DateFormat.getDateTimeInstance().format(new Date()));
         textArea.appendText(System.lineSeparator());
 
@@ -113,12 +119,23 @@ public class ClientController {
         textArea.appendText(System.lineSeparator());
         textField.setFocusTraversable(true);
         textField.clear();
+
+        ChatLogging.instance.appendMessage(textArea.getText(oldChatWindowContent.length(), textArea.getLength()));
     }
 
     public void initializeMessageHandler() {
         readMessageListener = Network.getInstance().addReadMessageListener(new ReadCommandListener() {
             @Override
             public void processReceivedCommand(Command command) {
+                if (ChatLogging.instance == null) {
+                    ChatLogging.instance = new ChatLogging(login);
+                    loadLastChatLoggingRows();
+                } else if (!login.equals(ChatLogging.instance.getLogin())) {
+                    ChatLogging.instance.close();
+                    ChatLogging.instance = new ChatLogging(login);
+                    loadLastChatLoggingRows();
+                }
+
                 if (command.getType() == CommandType.CLIENT_MESSAGE) {
                     ClientMessageCommandData data = (ClientMessageCommandData) command.getData();
                     appendMessageToChat(data.getSender(), data.getMessage());
@@ -184,5 +201,10 @@ public class ClientController {
                 usernameStage.show();
             }
         }
+    }
+
+    public void loadLastChatLoggingRows() {
+        textArea.clear();
+        textArea.setText(ChatLogging.instance.readLastChatLoggingRows(LAST_CHAT_LOGGING_ROWS_LOADED_QUANTITY));
     }
 }

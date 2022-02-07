@@ -67,7 +67,6 @@ public class Network {
     }
 
     public void sendMessage(String message) throws IOException {
-        System.out.println("send public message");
         sendCommand(Command.publicMessageCommand(message));
     }
 
