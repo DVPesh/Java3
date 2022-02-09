@@ -50,7 +50,10 @@ public class ClientChat extends Application {
         this.primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             @Override
             public void handle(WindowEvent windowEvent) {
-                Network.getInstance().close();
+                Network network = Network.getInstance();
+                if (network.executorService != null) network.executorService.shutdownNow();
+
+                network.close();
                 if (ChatLogging.instance != null) ChatLogging.instance.close();
             }
         });
