@@ -11,7 +11,7 @@ public class Homework5 {
 
     public static void main(String[] args) {
         ExecutorService executorService = Executors.newFixedThreadPool(CAR_QUANTITY);
-        barrierAction = Homework5::run;
+        barrierAction = Homework5::printStartFinishMessage;
         Race race = new Race(new Road(120), new Tunnel(), new Road(40));
         printInfo(race);
         Car[] cars = new Car[CAR_QUANTITY];
@@ -21,11 +21,13 @@ public class Homework5 {
         executorService.shutdown();
     }
 
-    private static void run() {
+    private static void printStartFinishMessage() {
         if (!raceFinish) {
             System.out.println("ВАЖНОЕ ОБЪЯВЛЕНИЕ >>> Гонка началась!!!");
             raceFinish = true;
-        } else System.out.println("ВАЖНОЕ ОБЪЯВЛЕНИЕ >>> Гонка закончилась!!!");
+        } else {
+            System.out.println("ВАЖНОЕ ОБЪЯВЛЕНИЕ >>> Гонка закончилась!!!");
+        }
     }
 
     private static void printInfo(Race race) {
