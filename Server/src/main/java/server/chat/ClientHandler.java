@@ -1,5 +1,7 @@
 package server.chat;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import ru.peshekhonov.clientserver.Command;
 import ru.peshekhonov.clientserver.CommandType;
 import ru.peshekhonov.clientserver.commands.AuthCommandData;
@@ -17,6 +19,8 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class ClientHandler {
+
+    private static final Logger LOGGER = LogManager.getLogger(ClientHandler.class);
 
     private final MyServer server;
     private final Socket clientSocket;
@@ -39,13 +43,14 @@ public class ClientHandler {
                 authenticate();
                 readMessages();
             } catch (IOException e) {
-                System.err.println("Failed to process message from client");
-                e.printStackTrace();
+                LOGGER.error("Failed to process message from client", e);
+//                e.printStackTrace();
             } finally {
                 try {
                     closeConnection();
                 } catch (IOException e) {
-                    System.err.println("Failed to close connection");
+                    LOGGER.error("Failed to close connection", e);
+//                    e.printStackTrace();
                 }
             }
         });
@@ -59,10 +64,11 @@ public class ClientHandler {
                 try {
                     if (!clientSocket.isClosed()) {
                         clientSocket.close();
-                        System.out.println("Closing the connection by timeout");
+                        LOGGER.warn("Closing the connection by timeout");
                     }
                 } catch (IOException e) {
-                    System.err.println("Failed to close connection");
+                    LOGGER.error("Failed to close connection", e);
+//                    e.printStackTrace();
                 }
             }
         };
@@ -75,6 +81,7 @@ public class ClientHandler {
             }
 
             if (command.getType() == CommandType.AUTH) {
+                LOGGER.info("AUTH");
                 AuthCommandData data = (AuthCommandData) command.getData();
                 String login = data.getLogin();
                 String password = data.getPassword();
@@ -82,24 +89,28 @@ public class ClientHandler {
                 try {
                     userName = server.getAuthService().getUsernameByLoginAndPassword(login, password);
                 } catch (SQLException e) {
-                    System.err.println("Database access error occurs");
-                    e.printStackTrace();
+                    LOGGER.error("Database access error occurs", e);
+//                    e.printStackTrace();
+                    LOGGER.info("errorCommand");
                     sendCommand(Command.errorCommand("Ошибка обращения к базе данных сервера"));
                     continue;
                 }
                 if (userName == null) {
+                    LOGGER.info("errorCommand");
                     sendCommand(Command.errorCommand("Некорректные логин и пароль"));
                 } else if (server.isUsernameBusy(userName)) {
+                    LOGGER.info("errorCommand");
                     sendCommand(Command.errorCommand("Такой пользователь уже существует!"));
                 } else {
                     timerTask.cancel();
                     timer.purge();
                     this.user = new User(login, password, userName);
+                    LOGGER.info("authOkCommand");
                     sendCommand(Command.authOkCommand(userName));
                     try {
                         Thread.sleep(100);
                     } catch (InterruptedException e) {
-                        e.printStackTrace();
+                        LOGGER.error("Delay error", e);
                     }
                     server.subscribe(this);
                     return;
@@ -113,7 +124,7 @@ public class ClientHandler {
         try {
             command = (Command) inputStream.readObject();
         } catch (ClassNotFoundException e) {
-            System.err.println("Failed to read Command class");
+            LOGGER.error("Failed to read Command class", e);
 //            e.printStackTrace();
         }
         return command;
@@ -135,8 +146,10 @@ public class ClientHandler {
 
             switch (command.getType()) {
                 case END:
+                    LOGGER.info("End");
                     return;
                 case PRIVATE_MESSAGE: {
+                    LOGGER.info("Private message");
                     PrivateMessageCommandData data = (PrivateMessageCommandData) command.getData();
                     String recipient = data.getReceiver();
                     String privateMessage = data.getMessage();
@@ -144,11 +157,13 @@ public class ClientHandler {
                     break;
                 }
                 case PUBLIC_MESSAGE: {
+                    LOGGER.info("Public message");
                     PublicMessageCommandData data = (PublicMessageCommandData) command.getData();
                     processMessage(data.getMessage());
                     break;
                 }
                 case CHANGE_USERNAME: {
+                    LOGGER.info("Change username");
                     ChangeUsernameCommandData data = (ChangeUsernameCommandData) command.getData();
                     String login = data.getLogin();
                     String password = data.getPassword();
@@ -158,18 +173,21 @@ public class ClientHandler {
                             if (!server.getAuthService().doesUsernameExist(username)) {
                                 server.getAuthService().changeUsername(login, username);
                             } else {
+                                LOGGER.info("errorCommand");
                                 sendCommand(Command.errorCommand("Пользователь с таким именем уже существует"));
                                 break;
                             }
                         } catch (SQLException e) {
-                            System.err.println("Database access error occurs");
-                            e.printStackTrace();
+                            LOGGER.error("Database access error occurs", e);
+//                            e.printStackTrace();
+                            LOGGER.info("errorCommand");
                             sendCommand(Command.errorCommand("Ошибка обращения к базе данных сервера"));
                             break;
                         }
                         this.user = new User(login, password, username);
                         server.changeUsername(this);
                     } else {
+                        LOGGER.info("errorCommand");
                         sendCommand(Command.errorCommand("Некорректные логин и пароль"));
                     }
                 }
