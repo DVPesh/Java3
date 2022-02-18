@@ -1,5 +1,6 @@
 package task2;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -18,6 +19,11 @@ class Job2Test {
     @BeforeEach
     void init() {
         instance = new Job2();
+    }
+
+    @AfterEach
+    public void finish() {
+        instance = null;
     }
 
     @ParameterizedTest

@@ -1,5 +1,6 @@
 package task1;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -18,6 +19,11 @@ class Job1Test {
     @BeforeEach
     public void init() {
         instance = new Job1();
+    }
+
+    @AfterEach
+    public void finish() {
+        instance = null;
     }
 
     @Test
