@@ -35,3 +35,10 @@ login1 pass1
 login2 pass2
 login3 pass3
 login4 pass4
+
+Логирование всех событий на стороне сервера осуществляется в консоль и файл Server/logs/server.log.
+Кроме этого происходит логирование событий отдельно по классам MyServer, ClientHandler и AuthService.
+Логирование для класса MyServer происходит в файл Server/logs/MyServer.log.
+Логирование для класса ClientHandler происходит в файл Server/logs/ClientHandler.log.
+Логирование для класса AuthService происходит в файл Server/logs/AuthService.log.
+Это сделано для демонстрации работы нескольких логгеров одновременно.

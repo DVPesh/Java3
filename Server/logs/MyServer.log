@@ -1,0 +1,48 @@
+********************** Логирование событий MyServer **********************
+16 февр. 2022 07:06:15,526 [           main] INFO  Server has been started
+16 февр. 2022 07:06:15,767 [           main] INFO  Waiting for new client connection
+16 февр. 2022 07:06:43,958 [           main] INFO  Client has been connected
+16 февр. 2022 07:06:43,966 [           main] INFO  Waiting for new client connection
+16 февр. 2022 07:06:44,090 [pool-2-thread-1] INFO  updateUserListCommand
+16 февр. 2022 07:07:06,791 [           main] INFO  Client has been connected
+16 февр. 2022 07:07:06,793 [           main] INFO  Waiting for new client connection
+16 февр. 2022 07:07:06,914 [pool-2-thread-2] INFO  updateUserListCommand
+16 февр. 2022 07:07:06,932 [pool-2-thread-2] INFO  updateUserListCommand
+16 февр. 2022 07:07:35,606 [           main] INFO  Client has been connected
+16 февр. 2022 07:07:35,608 [           main] INFO  Waiting for new client connection
+16 февр. 2022 07:07:35,724 [pool-2-thread-3] INFO  updateUserListCommand
+16 февр. 2022 07:07:35,725 [pool-2-thread-3] INFO  updateUserListCommand
+16 февр. 2022 07:07:35,727 [pool-2-thread-3] INFO  updateUserListCommand
+16 февр. 2022 07:07:47,420 [           main] INFO  Client has been connected
+16 февр. 2022 07:07:47,422 [           main] INFO  Waiting for new client connection
+16 февр. 2022 07:07:47,568 [pool-2-thread-4] INFO  updateUserListCommand
+16 февр. 2022 07:07:47,569 [pool-2-thread-4] INFO  updateUserListCommand
+16 февр. 2022 07:07:47,570 [pool-2-thread-4] INFO  updateUserListCommand
+16 февр. 2022 07:07:47,572 [pool-2-thread-4] INFO  updateUserListCommand
+16 февр. 2022 07:10:31,114 [pool-2-thread-4] INFO  clientMessageCommand
+16 февр. 2022 07:10:31,115 [pool-2-thread-4] INFO  clientMessageCommand
+16 февр. 2022 07:10:31,117 [pool-2-thread-4] INFO  clientMessageCommand
+16 февр. 2022 07:10:50,497 [pool-2-thread-1] INFO  clientMessageCommand
+16 февр. 2022 07:11:14,545 [pool-2-thread-3] INFO  clientMessageCommand
+16 февр. 2022 07:11:26,730 [pool-2-thread-1] INFO  updateUserListCommand
+16 февр. 2022 07:11:26,731 [pool-2-thread-1] INFO  updateUserListCommand
+16 февр. 2022 07:11:26,733 [pool-2-thread-1] INFO  updateUserListCommand
+16 февр. 2022 07:11:36,125 [pool-2-thread-2] INFO  updateUserListCommand
+16 февр. 2022 07:11:36,126 [pool-2-thread-2] INFO  updateUserListCommand
+16 февр. 2022 07:11:48,165 [pool-2-thread-3] INFO  updateUserListCommand
+16 февр. 2022 07:12:05,080 [           main] INFO  Client has been connected
+16 февр. 2022 07:12:05,081 [           main] INFO  Waiting for new client connection
+16 февр. 2022 07:12:17,472 [pool-2-thread-3] INFO  updateUserListCommand
+16 февр. 2022 07:12:17,473 [pool-2-thread-3] INFO  updateUserListCommand
+16 февр. 2022 07:12:41,932 [pool-2-thread-4] INFO  clientMessageCommand
+16 февр. 2022 07:13:04,339 [pool-2-thread-3] INFO  clientMessageCommand
+16 февр. 2022 07:13:21,629 [pool-2-thread-4] INFO  clientMessageCommand
+16 февр. 2022 07:13:35,286 [pool-2-thread-4] INFO  updateUserListCommand
+16 февр. 2022 07:14:05,690 [           main] INFO  Client has been connected
+16 февр. 2022 07:14:05,691 [           main] INFO  Waiting for new client connection
+16 февр. 2022 07:14:05,810 [pool-2-thread-3] INFO  updateUserListCommand
+16 февр. 2022 07:14:50,402 [           main] INFO  Client has been connected
+16 февр. 2022 07:14:50,403 [           main] INFO  Waiting for new client connection
+16 февр. 2022 07:14:50,525 [pool-2-thread-5] INFO  updateUserListCommand
+16 февр. 2022 07:14:50,526 [pool-2-thread-5] INFO  updateUserListCommand
+16 февр. 2022 07:15:11,699 [pool-2-thread-5] INFO  updateUserListCommand

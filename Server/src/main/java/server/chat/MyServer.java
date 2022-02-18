@@ -1,5 +1,7 @@
 package server.chat;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import ru.peshekhonov.clientserver.Command;
 import server.chat.auth.AuthService;
 
@@ -14,6 +16,8 @@ import java.util.concurrent.Executors;
 
 public class MyServer {
 
+    private static final Logger LOGGER = LogManager.getLogger(MyServer.class);
+
     private final List<ClientHandler> clients = new ArrayList<>();
     private AuthService authService;
     private ExecutorService executorService;
@@ -24,7 +28,7 @@ public class MyServer {
 
     public void start(int port) {
         try (ServerSocket serverSocket = new ServerSocket(port)) {
-            System.out.println("Server has been started");
+            LOGGER.info("Server has been started");
             authService = new AuthService();
             authService.start();
             executorService = Executors.newCachedThreadPool();
@@ -34,11 +38,11 @@ public class MyServer {
             }
 
         } catch (IOException e) {
-            System.err.println("Failed to bind port " + port);
-            e.printStackTrace();
+            LOGGER.error("Failed to bind port " + port, e);
+//            e.printStackTrace();
         } catch (SQLException e) {
-            System.err.println("Database access error occurs");
-            e.printStackTrace();
+            LOGGER.error("Database access error occurs", e);
+//            e.printStackTrace();
         } finally {
             if (authService != null) authService.stop();
             if (executorService != null) executorService.shutdown();
@@ -46,9 +50,9 @@ public class MyServer {
     }
 
     private void waitAndProcessClientConnection(ServerSocket serverSocket) throws IOException {
-        System.out.println("Waiting for new client connection");
+        LOGGER.info("Waiting for new client connection");
         Socket clientSocket = serverSocket.accept();
-        System.out.println("Client has been connected");
+        LOGGER.info("Client has been connected");
         ClientHandler clientHandler = new ClientHandler(this, clientSocket);
         clientHandler.handle();
     }
@@ -65,7 +69,7 @@ public class MyServer {
     public synchronized void broadcastMessage(String message, ClientHandler sender) throws IOException {
         for (ClientHandler client : clients) {
             if (client != sender) {
-                System.out.println("clientMessageCommand");
+                LOGGER.info("clientMessageCommand");
                 client.sendCommand(Command.clientMessageCommand(sender.getUserName(), message));
             }
         }
@@ -74,6 +78,7 @@ public class MyServer {
     public synchronized void sendPrivateMessage(ClientHandler sender, String recipient, String privateMessage) throws IOException {
         for (ClientHandler client : clients) {
             if (client != sender && client.getUserName().equals(recipient)) {
+                LOGGER.info("clientMessageCommand");
                 client.sendCommand(Command.clientMessageCommand(sender.getUserName(), privateMessage));
                 break;
             }
@@ -91,6 +96,7 @@ public class MyServer {
     }
 
     public synchronized void changeUsername(ClientHandler client) throws IOException {
+        LOGGER.info("changeUsernameOkCommand");
         client.sendCommand(Command.changeUsernameOkCommand(client.getUserName()));
         notifyClientUserListUpdated();
     }
@@ -103,6 +109,7 @@ public class MyServer {
         }
 
         for (ClientHandler client : clients) {
+            LOGGER.info("updateUserListCommand");
             client.sendCommand(Command.updateUserListCommand(userListOnline));
         }
     }

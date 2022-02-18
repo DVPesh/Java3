@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+    <Properties>
+        <Property name="basePath">Server/logs</Property>
+    </Properties>
+
+    <appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout>
+                <pattern>%date{DATE} [%15thread] %-5level %13logger{1} - %message%n</pattern>
+                <charset>UTF-8</charset>
+            </PatternLayout>
+        </Console>
+
+        <File name="Default" fileName="${basePath}/server.log" append="true">
+            <PatternLayout>
+                <pattern>%date{DATE} [%15thread] %-5level %13logger{1} - %message%n</pattern>
+                <charset>UTF-8</charset>
+                <header>********************** Логирование всех событий на сервере **********************%n</header>
+            </PatternLayout>
+        </File>
+
+        <File name="MyServer" fileName="${basePath}/MyServer.log" append="true">
+            <PatternLayout>
+                <pattern>%date{DATE} [%15thread] %-5level %message%n</pattern>
+                <charset>UTF-8</charset>
+                <header>********************** Логирование событий MyServer **********************%n</header>
+            </PatternLayout>
+        </File>
+
+        <File name="ClientHandler" fileName="${basePath}/ClientHandler.log" append="true">
+            <PatternLayout>
+                <pattern>%date{DATE} [%15thread] %-5level %message%n</pattern>
+                <charset>UTF-8</charset>
+                <header>********************** Логирование событий ClientHandler **********************%n</header>
+            </PatternLayout>
+        </File>
+
+        <File name="AuthService" fileName="${basePath}/AuthService.log" append="true">
+            <PatternLayout>
+                <pattern>%date{DATE} [%15thread] %-5level %message%n</pattern>
+                <charset>UTF-8</charset>
+                <header>********************** Логирование событий AuthService **********************%n</header>
+            </PatternLayout>
+        </File>
+
+    </appenders>
+
+    <loggers>
+
+        <logger name="server.chat.MyServer" level="debug" additivity="true">
+            <appender-ref ref="MyServer"/>
+        </logger>
+
+        <logger name="server.chat.ClientHandler" level="debug" additivity="true">
+            <appender-ref ref="ClientHandler"/>
+        </logger>
+
+        <logger name="server.chat.auth.AuthService" level="debug" additivity="true">
+            <appender-ref ref="AuthService"/>
+        </logger>
+
+        <root level="debug">
+            <appender-ref ref="Console"/>
+            <appender-ref ref="Default"/>
+        </root>
+
+    </loggers>
+
+</configuration>

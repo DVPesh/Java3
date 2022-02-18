@@ -1,8 +1,13 @@
 package server.chat.auth;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.sql.*;
 
 public class AuthService implements AuthServiceInterface {
+
+    private static final Logger LOGGER = LogManager.getLogger(AuthService.class);
 
     private final static String DB_URL = "jdbc:sqlite:users.db";
     private final static String SQL_GET_USERNAME = "SELECT username FROM users WHERE login=? AND password=?";
@@ -29,32 +34,32 @@ public class AuthService implements AuthServiceInterface {
                 getUsernamePrepared.close();
             }
         } catch (SQLException e) {
-            System.err.println(ERROR_MESSAGE);
-            e.printStackTrace();
+            LOGGER.error(ERROR_MESSAGE, e);
+//            e.printStackTrace();
         }
         try {
             if (setUsernamePrepared != null) {
                 setUsernamePrepared.close();
             }
         } catch (SQLException e) {
-            System.err.println(ERROR_MESSAGE);
-            e.printStackTrace();
+            LOGGER.error(ERROR_MESSAGE, e);
+//            e.printStackTrace();
         }
         try {
             if (checkUsernamePrepared != null) {
                 checkUsernamePrepared.close();
             }
         } catch (SQLException e) {
-            System.err.println(ERROR_MESSAGE);
-            e.printStackTrace();
+            LOGGER.error(ERROR_MESSAGE, e);
+//            e.printStackTrace();
         }
         try {
             if (connection != null) {
                 connection.close();
             }
         } catch (SQLException e) {
-            System.err.println(ERROR_MESSAGE);
-            e.printStackTrace();
+            LOGGER.error(ERROR_MESSAGE, e);
+//            e.printStackTrace();
         }
     }
 
