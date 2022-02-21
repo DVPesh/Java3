@@ -6,7 +6,6 @@ import ru.geekbrains.java3.lesson7.annotations.Test;
 import ru.geekbrains.java3.lesson7.tests.TestSet1;
 import ru.geekbrains.java3.lesson7.tests.TestSet2;
 import ru.geekbrains.java3.lesson7.tests.TestSet3;
-import ru.geekbrains.java3.lesson7.tests.TestSet4;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -32,7 +31,7 @@ public class Homework7 {
         }
         Thread.sleep(1000);
         System.out.println("**************************** TestSet4 ****************************");
-        start(TestSet4.class);
+        start("ru.geekbrains.java3.lesson7.tests.TestSet4");
     }
 
     public static void start(Class testClass) {
@@ -45,6 +44,15 @@ public class Homework7 {
             executeMethod(testClass, afterMethod, instance);
         } catch (InvocationTargetException | IllegalAccessException | NoSuchMethodException | InstantiationException e) {
             System.err.println("сбой функции start");
+            e.printStackTrace();
+        }
+    }
+
+    public static void start(String className) {
+        try {
+            Class clazz = Class.forName(className);
+            start(clazz);
+        } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
     }
