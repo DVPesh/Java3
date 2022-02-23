@@ -10,6 +10,9 @@ import ru.geekbrains.java3.lesson7.tests.TestSet3;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 
 public class Homework7 {
 
@@ -107,28 +110,25 @@ public class Homework7 {
 
     private static Object executeTests(Class testClass, Object instance)
             throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, InstantiationException {
-        Test annotation;
-        boolean enableToExecuteMethod;
-        for (int i = 10; i > 0; i--) {
-            for (Method method : testClass.getDeclaredMethods()) {
-                annotation = method.getAnnotation(Test.class);
-                if (annotation != null) {
-                    switch (i) {
-                        case 1:
-                            enableToExecuteMethod = annotation.priority() < 2;
-                            break;
-                        case 10:
-                            enableToExecuteMethod = annotation.priority() > 9;
-                            break;
-                        default:
-                            enableToExecuteMethod = annotation.priority() == i;
-                    }
-                    if (enableToExecuteMethod) {
-                        instance = executeMethod(testClass, method, instance);
-                    }
-                }
+        List<Method> tests = new ArrayList<>();
+
+        for (Method method : testClass.getDeclaredMethods()) {
+            if (method.getAnnotation(Test.class) != null) {
+                tests.add(method);
             }
         }
+
+        tests.sort(new Comparator<Method>() {
+            @Override
+            public int compare(Method o1, Method o2) {
+                return Integer.compare(o2.getAnnotation(Test.class).priority(), o1.getAnnotation(Test.class).priority());
+            }
+        });
+
+        for (Method test : tests) {
+            instance = executeMethod(testClass, test, instance);
+        }
+
         return instance;
     }
 
